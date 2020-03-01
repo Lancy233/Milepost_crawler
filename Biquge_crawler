@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+y = 1
+for x in range(25622984,32246643):  ##通过改变URL后缀地址实现翻页功能
+    url = "https://www.biqugela.com/book_28411/" + str(x) + ".html"
+    print(url)
+    h = urlopen(url)
+    h1 = BeautifulSoup(h,"lxml")
+    h2List = h1.findAll( class_="content_detail") ##用参数keyword来直接找到所需要的标签，这个真的很方便
+    for h2 in h2List:
+        print(h2.get_text())
+        file = open("上门龙婿第"+str(y)+"章"".txt", 'a', encoding='utf-8')
+        file.write('\n'.join(h2))
+        file.write('\n' + ' ' * 20 + '\n')
+    y = y+1 ##实现了每爬取一个页面，就将该页面保存并重新命名一个文件
+file.close()
